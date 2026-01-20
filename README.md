@@ -52,3 +52,86 @@ Final test files ready to complete and run with Jest.
 - `scripts/jest-test-gen-helpers.mjs` (test skeleton generator and integrator)
 - `scripts/config.mjs` (configuration)
 - `generate/utils.mjs` (general utilities)
+
+# Files · Install · Config · Run
+
+## Files
+
+- `scripts/gen-test-babel.mjs` (main process)
+- `scripts/analyze-ast-helper.mjs` (AST analysis)
+- `scripts/ast-helpers.mjs` (AST helper functions)
+- `scripts/suggest-test-blocks.mjs` (test block suggestion generator)
+- `scripts/suggest-test-blocks-helpers.mjs` (test block suggestion helpers)
+- `scripts/jest-test-gen-helpers.mjs` (test skeleton generator and integrator)
+- `generate/utils.mjs` (utilities for file reading, parsing, etc.)
+- `generate/config.mjs` (configuration)
+
+## Installation and Configuration
+
+### 1. Install
+
+- Copy the files into your repository (e.g., `./scripts/` or any folder you prefer).
+- Install dependencies:
+  ```bash
+  npm install @babel/parser @babel/traverse
+  npm install jest-test-gen
+
+# Expectations · More Info
+
+## What to Expect from the System
+
+- Test files are automatically generated in the `__tests__` folder next to each source file.
+- The tests include imports, mocks, and suggested blocks based on source code analysis.
+- The generated files are valid to complete and run with Jest.
+
+## Example of a Generated File
+
+```js
+// Example: DataExportContext.test.jsx
+jest.mock("@/utils/supabase/client");
+jest.mock("next/navigation");
+jest.mock("react-hot-toast");
+const mockDataExportContextValue = 'example';
+
+// ...headers and imports
+
+describe('DataExportProvider props', () => {
+    it("handles prop 'children' correctly (Source line: 185)", () => {
+        render(<DataExportProvider children={<span data-testid=\"test-child\">Test</span>} />);
+        expect(screen.getByTestId('test-child')).toBeInTheDocument();
+    });
+});
+
+// Example: OfferingCreate.test.jsx
+jest.mock("@/actions/global");
+jest.mock("@/context/appContext");
+// ...more mocks
+
+describe('OfferingCreate', () => {
+    it("renders main elements", () => {
+        // ...test implementation
+    });
+});
+
+describe('OfferingCreate props', () => {
+    it("handles prop 'assetClasses' correctly (Source line: 32)", () => {
+        // ...test implementation
+    });
+    // ...more prop tests
+});
+```
+
+## Customization and Extensibility
+
+- You can modify the configuration in `generate/config.mjs` to adjust paths, exclusions, and valid extensions.
+- The system is modular: you can add new rules, helpers, or custom test blocks.
+
+## Important Notes
+
+- Generated test blocks may be overwritten in future script runs.
+- You can edit or add tests manually outside the generated blocks, but if you modify the auto-generated blocks, those changes will be lost when regenerating! **Save your files!**
+
+---
+
+**Questions?**  
+Check the comments in each file or review the source code to understand the flow and logic.
